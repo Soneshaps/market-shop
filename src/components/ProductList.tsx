@@ -1,6 +1,7 @@
 import React from "react";
 import { Product } from "../types/types";
 import { Rating } from "@mui/material";
+import { getAvailablilityClassName } from "../utils/utils";
 
 interface ProductListProps {
   category: string[];
@@ -11,7 +12,7 @@ interface ProductListProps {
   isProductListFetching: boolean;
 }
 
-enum Status {
+export enum Status {
   IN_STOCK = "In Stock",
   OUT_OF_STOCK = "Out of Stock",
   LOW_STOCK = "Low Stock",
@@ -25,20 +26,6 @@ const ProductList: React.FC<ProductListProps> = ({
   setSelectedCategory,
   isProductListFetching,
 }) => {
-  const getAvailablilityClassName = (status: string) => {
-    if (status === Status.IN_STOCK) {
-      return "green";
-    }
-
-    if (status === Status.OUT_OF_STOCK) {
-      return "red";
-    }
-
-    if (status === Status.LOW_STOCK) {
-      return "orange";
-    }
-  };
-
   if (isProductListFetching) {
     return <div className="loading">Fetching Product Lists ....</div>;
   }

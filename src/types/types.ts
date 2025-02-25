@@ -12,6 +12,8 @@ export interface Product {
   images: string[];
   minimumOrderQuantity: number;
   availabilityStatus: string;
+  returnPolicy: string;
+  tags: string[];
 }
 
 export interface ProductsResponse {

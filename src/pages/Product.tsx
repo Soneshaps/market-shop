@@ -94,10 +94,10 @@ const Product: React.FC = () => {
     <div style={{ display: "flex", height: "100vh" }}>
       <div
         style={{
-          width: "300px",
-          borderLeft: "1px solid #ccc",
+          width: "350px",
+          borderRight: "1px solid #ccc",
           overflowY: "auto",
-          padding: "32px",
+          padding: "32px 20px 32px 32px",
         }}
       >
         <ProductList
@@ -111,6 +111,8 @@ const Product: React.FC = () => {
         <div className="pagination">
           <Pagination
             size="small"
+            showFirstButton
+            showLastButton
             count={paginationConfig.totalPage}
             page={paginationConfig.currentPage}
             onChange={handleChange}

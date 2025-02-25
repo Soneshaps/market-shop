@@ -1,5 +1,6 @@
 import React from "react";
 import { Product } from "../types/types";
+import { Rating } from "@mui/material";
 
 interface ProductListProps {
   category: string[];
@@ -10,6 +11,12 @@ interface ProductListProps {
   isProductListFetching: boolean;
 }
 
+enum Status {
+  IN_STOCK = "In Stock",
+  OUT_OF_STOCK = "Out of Stock",
+  LOW_STOCK = "Low Stock",
+}
+
 const ProductList: React.FC<ProductListProps> = ({
   setSelectedProduct,
   products,
@@ -18,6 +25,20 @@ const ProductList: React.FC<ProductListProps> = ({
   setSelectedCategory,
   isProductListFetching,
 }) => {
+  const getAvailablilityClassName = (status: string) => {
+    if (status === Status.IN_STOCK) {
+      return "green";
+    }
+
+    if (status === Status.OUT_OF_STOCK) {
+      return "red";
+    }
+
+    if (status === Status.LOW_STOCK) {
+      return "orange";
+    }
+  };
+
   if (isProductListFetching) {
     return <div className="loading">Fetching Product Lists ....</div>;
   }
@@ -49,13 +70,44 @@ const ProductList: React.FC<ProductListProps> = ({
             : "product-list";
 
           return (
-            <li
-              className={productListClassName}
-              key={product.id}
-              onClick={() => setSelectedProduct(product.id)}
-            >
-              {product.title}
-            </li>
+            <>
+              <li
+                className={productListClassName}
+                key={product.id}
+                onClick={() => setSelectedProduct(product.id)}
+              >
+                <div className="product-list-wrapper">
+                  <div className="product-list-image">
+                    <img src={product.thumbnail} />
+                  </div>
+                  <div className="product-list-detail">
+                    <div className="product-list-title"> {product.title}</div>
+                    <div
+                      className={getAvailablilityClassName(
+                        product.availabilityStatus
+                      )}
+                    >
+                      {product.availabilityStatus}
+                    </div>
+                    <div>
+                      <i>{product.brand}</i>
+                    </div>
+                    <span className="category">{product.category}</span>
+                    <div>
+                      <strong>Quantity :</strong> {product.minimumOrderQuantity}{" "}
+                      / {product.stock}
+                    </div>
+                    <Rating
+                      name="read-only"
+                      size="small"
+                      value={product.rating}
+                      readOnly
+                    />
+                    <div className="price">${product.price}</div>
+                  </div>
+                </div>
+              </li>
+            </>
           );
         })}
       </ul>

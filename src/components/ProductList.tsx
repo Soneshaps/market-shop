@@ -15,7 +15,11 @@ const ProductList: React.FC<ProductListProps> = ({
       <h2>Product List</h2>
       <ul>
         {products.map((product) => (
-          <li key={product.id} onClick={() => setSelectedProduct(product.id)}>
+          <li
+            className="product-list"
+            key={product.id}
+            onClick={() => setSelectedProduct(product.id)}
+          >
             {product.title}
           </li>
         ))}

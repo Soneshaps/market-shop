@@ -9,19 +9,28 @@ const Product: React.FC = () => {
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     null
   );
+  const [isProductListFetching, setIsProductListFetching] =
+    useState<boolean>(false);
+
   const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(
     null
   );
 
   const [products, setProducts] = useState<ProductType[]>([]);
 
+  const [isProductDetailFetching, setIsProductDetailFetching] =
+    useState<boolean>(false);
+
   useEffect(() => {
     const fetchProducts = async () => {
+      setIsProductListFetching(true);
       try {
         const data = await getAllProducts();
         setProducts(data.products || []);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.log("Error fetching products:", error);
+      } finally {
+        setIsProductListFetching(false);
       }
     };
 
@@ -31,11 +40,14 @@ const Product: React.FC = () => {
   useEffect(() => {
     if (selectedProductId) {
       const fetchProductsDetails = async () => {
+        setIsProductDetailFetching(true);
         try {
           const data = await getProductById(selectedProductId);
           setSelectedProduct(data || null);
         } catch (error) {
           console.error("Error fetching products:", error);
+        } finally {
+          setIsProductDetailFetching(false);
         }
       };
 
@@ -43,11 +55,18 @@ const Product: React.FC = () => {
     }
   }, [selectedProductId]);
 
+  if (isProductListFetching) {
+    return <div className="loading">Fetching Product Lists ....</div>;
+  }
+
   return (
     <div style={{ display: "flex", height: "100vh" }}>
       {/* Left side: Product details (or placeholder) */}
       <div style={{ flex: 1, overflowY: "auto" }}>
-        <ProductDetails product={selectedProduct} />
+        <ProductDetails
+          product={selectedProduct}
+          isFetching={isProductDetailFetching}
+        />
       </div>
 
       {/* Right side: Product list */}

@@ -1,0 +1,38 @@
+.loading {
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.image {
+  height: 300px;
+}
+
+.product-details-wrapper {
+  margin: 20px;
+  display: flex;
+}
+
+.product-details {
+  width: calc(50% + 300px);
+  font-size: 18px;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.product-list {
+  list-style-type: none;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.product-list:hover {
+  color: #333;
+}

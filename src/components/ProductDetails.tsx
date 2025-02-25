@@ -3,30 +3,60 @@ import { Product } from "../types/types";
 
 interface ProductDetailsProps {
   product: Product | null;
+  isFetching: boolean;
 }
 
-const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
+const ProductDetails: React.FC<ProductDetailsProps> = ({
+  product,
+  isFetching,
+}) => {
+  if (!product) {
+    return (
+      <div className="loading">
+        No Product Selected. Please select a product from the list.
+      </div>
+    );
+  }
+
+  if (isFetching) {
+    return <div className="loading">Fetching Product Details ....</div>;
+  }
+
   return (
-    <>
-      <h2>Product item</h2>
-      {product ? (
-        <div>
-          <div>Name : {product.title}</div>
-          <div>Brand : {product.brand}</div>
-          <div>Category : {product.category}</div>
-          <div>Minimum Order Quantity : {product.minimumOrderQuantity}</div>
-          <div>Availability Status : {product.availabilityStatus}</div>
-          <div>Price : {product.price}</div>
-          <div>Rating : {product.rating}</div>
-          <div>Stock : {product.stock}</div>
-          <div>
-            Thumbnail : <img alt={product.title} src={product.thumbnail} />
-          </div>
+    <div className="product-details-wrapper">
+      <div className="product-details">
+        <h2>Product item</h2>
+        <div className="image">
+          <img alt={product.title} src={product.thumbnail} />
         </div>
-      ) : (
-        "No Product Selected. Please select a product from the list."
-      )}
-    </>
+        <div>
+          <span className="label">Name </span>: {product.title}
+        </div>
+        <div>
+          <span className="label">Brand</span> : {product.brand}
+        </div>
+        <div>
+          <span className="label">Category</span> : {product.category}
+        </div>
+        <div>
+          <span className="label">Minimum Order Quantity</span> :{" "}
+          {product.minimumOrderQuantity}
+        </div>
+        <div>
+          <span className="label">Availability Status</span> :{" "}
+          {product.availabilityStatus}
+        </div>
+        <div>
+          <span className="label">Price</span> : ${product.price}
+        </div>
+        <div>
+          <span className="label">Rating</span> : {Math.floor(product.rating)}
+        </div>
+        <div>
+          <span className="label">Stock</span> : {product.stock}
+        </div>
+      </div>
+    </div>
   );
 };
 

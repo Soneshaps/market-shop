@@ -75,8 +75,12 @@ const ProductDetails: React.FC = () => {
             </div>
             <div className="policy">{product.returnPolicy}</div>
             <div>
-              {product.tags.map((tag) => {
-                return <span className="tags">{tag}</span>;
+              {product.tags.map((tag, index) => {
+                return (
+                  <span key={index} className="tags">
+                    {tag}
+                  </span>
+                );
               })}
             </div>
           </div>

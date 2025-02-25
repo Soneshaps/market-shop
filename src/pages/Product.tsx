@@ -5,11 +5,14 @@ import ProductList from "../components/ProductList";
 import { Product as ProductType } from "../types/types";
 import { filterProductsByCategory, getUniqueCategories } from "../utils/utils";
 import { Pagination } from "@mui/material";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useSearchParams } from "react-router-dom";
 
 const DEFAULT_PAGE = 1;
 
 const Product: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get("page");
+
   // States
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     null
@@ -30,12 +33,9 @@ const Product: React.FC = () => {
     currentPage: 0,
   });
 
-  const [pageNumber, setPageNumber] = useState(DEFAULT_PAGE);
-
-  console.log({ paginationConfig });
+  const [pageNumber, setPageNumber] = useState(page || DEFAULT_PAGE);
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    console.log({ value });
     setPageNumber(value);
     setPaginationConfig({ ...paginationConfig, currentPage: value });
   };
@@ -48,7 +48,7 @@ const Product: React.FC = () => {
     const fetchProducts = async () => {
       setIsProductListFetching(true);
       try {
-        const data = await getAllProducts(pageNumber);
+        const data = await getAllProducts(+pageNumber);
         setProducts(data.products || []);
         setFilteredProducts(data.products || []);
         setCategory(getUniqueCategories(data.products));
@@ -57,7 +57,7 @@ const Product: React.FC = () => {
           currentPage: data.skip / 20 + 1,
         });
       } catch (error) {
-        console.log("Error fetching products:", error);
+        console.error("Error fetching products:", error);
       } finally {
         setIsProductListFetching(false);
       }
@@ -83,6 +83,7 @@ const Product: React.FC = () => {
           products={filteredProducts}
           selectedProductId={selectedProductId}
           setSelectedProduct={setSelectedProductId}
+          pageNumber={+pageNumber}
         />
         <div className="pagination">
           <Pagination

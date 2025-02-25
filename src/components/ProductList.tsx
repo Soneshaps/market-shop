@@ -11,6 +11,7 @@ interface ProductListProps {
   products: Product[];
   selectedProductId: number | null;
   isProductListFetching: boolean;
+  pageNumber: number;
 }
 
 export enum Status {
@@ -26,6 +27,7 @@ const ProductList: React.FC<ProductListProps> = ({
   category,
   setSelectedCategory,
   isProductListFetching,
+  pageNumber,
 }) => {
   if (isProductListFetching) {
     return <div className="loading">Fetching Product Lists ....</div>;
@@ -34,16 +36,19 @@ const ProductList: React.FC<ProductListProps> = ({
     <div>
       <div className="product-list-header">
         <h2 className="heading">Products</h2>
-        <select onChange={(e) => setSelectedCategory(e.target.value)}>
-          <option value="" disabled selected>
+        <select
+          defaultValue={""}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
+          <option value="" disabled>
             Category
           </option>
           <option className="product-sort-option" value="All">
             All
           </option>
-          {category.map((data) => {
+          {category.map((data, i) => {
             return (
-              <option className="product-sort-option" value={data}>
+              <option key={i} className="product-sort-option" value={data}>
                 {data}
               </option>
             );
@@ -59,7 +64,7 @@ const ProductList: React.FC<ProductListProps> = ({
 
           return (
             <>
-              <Link to={`/product/${product.id}`}>
+              <Link to={`/product/${product.id}?page=${pageNumber}`}>
                 <li
                   className={productListClassName}
                   key={product.id}

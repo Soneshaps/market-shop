@@ -50,3 +50,18 @@ body {
 .highlight {
   color: #4156a1;
 }
+
+.product-list-header {
+  display: flex;
+  height: 30px;
+  justify-content: space-between;
+  padding-bottom: 20px;
+}
+
+.product-sort-option {
+  text-transform: uppercase;
+}
+
+.pagination {
+  padding-top: 20px;
+}

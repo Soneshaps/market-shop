@@ -3,6 +3,10 @@ import { getAllProducts, getProductById } from "../api/product.api";
 import ProductDetails from "../components/ProductDetails";
 import ProductList from "../components/ProductList";
 import { Product as ProductType } from "../types/types";
+import { filterProductsByCategory, getUniqueCategories } from "../utils/utils";
+import { Pagination } from "@mui/material";
+
+const DEFAULT_PAGE = 1;
 
 const Product: React.FC = () => {
   // States
@@ -18,15 +22,46 @@ const Product: React.FC = () => {
 
   const [products, setProducts] = useState<ProductType[]>([]);
 
+  const [filteredProducts, setFilteredProducts] =
+    useState<ProductType[]>(products);
+
   const [isProductDetailFetching, setIsProductDetailFetching] =
     useState<boolean>(false);
+
+  const [category, setCategory] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const [paginationConfig, setPaginationConfig] = useState({
+    totalPage: 0,
+    currentPage: 0,
+  });
+
+  const [pageNumber, setPageNumber] = useState(DEFAULT_PAGE);
+
+  console.log({ paginationConfig });
+
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    console.log({ value });
+    setPageNumber(value);
+    setPaginationConfig({ ...paginationConfig, currentPage: value });
+  };
+
+  useEffect(() => {
+    setFilteredProducts(filterProductsByCategory(products, selectedCategory));
+  }, [selectedCategory]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       setIsProductListFetching(true);
       try {
-        const data = await getAllProducts();
+        const data = await getAllProducts(pageNumber);
         setProducts(data.products || []);
+        setFilteredProducts(data.products || []);
+        setCategory(getUniqueCategories(data.products));
+        setPaginationConfig({
+          totalPage: Math.ceil(data.total / 20),
+          currentPage: data.skip / 20 + 1,
+        });
       } catch (error) {
         console.log("Error fetching products:", error);
       } finally {
@@ -35,7 +70,7 @@ const Product: React.FC = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [pageNumber]);
 
   useEffect(() => {
     if (selectedProductId) {
@@ -55,21 +90,8 @@ const Product: React.FC = () => {
     }
   }, [selectedProductId]);
 
-  if (isProductListFetching) {
-    return <div className="loading">Fetching Product Lists ....</div>;
-  }
-
   return (
     <div style={{ display: "flex", height: "100vh" }}>
-      {/* Left side: Product details (or placeholder) */}
-      <div style={{ flex: 1, overflowY: "auto" }}>
-        <ProductDetails
-          product={selectedProduct}
-          isFetching={isProductDetailFetching}
-        />
-      </div>
-
-      {/* Right side: Product list */}
       <div
         style={{
           width: "300px",
@@ -79,11 +101,31 @@ const Product: React.FC = () => {
         }}
       >
         <ProductList
-          products={products}
+          isProductListFetching={isProductListFetching}
+          setSelectedCategory={setSelectedCategory}
+          category={category}
+          products={filteredProducts}
           selectedProductId={selectedProductId}
           setSelectedProduct={setSelectedProductId}
         />
+        <div className="pagination">
+          <Pagination
+            size="small"
+            count={paginationConfig.totalPage}
+            page={paginationConfig.currentPage}
+            onChange={handleChange}
+          />
+        </div>
       </div>
+      {/* Left side: Product details (or placeholder) */}
+      <div style={{ flex: 1, overflowY: "auto" }}>
+        <ProductDetails
+          product={selectedProduct}
+          isFetching={isProductDetailFetching}
+        />
+      </div>
+
+      {/* Right side: Product list */}
     </div>
   );
 };

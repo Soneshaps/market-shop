@@ -2,6 +2,7 @@ import React from "react";
 import { Product } from "../types/types";
 import { Rating } from "@mui/material";
 import { getAvailablilityClassName } from "../utils/utils";
+import { Link } from "react-router-dom";
 
 interface ProductListProps {
   category: string[];
@@ -58,42 +59,44 @@ const ProductList: React.FC<ProductListProps> = ({
 
           return (
             <>
-              <li
-                className={productListClassName}
-                key={product.id}
-                onClick={() => setSelectedProduct(product.id)}
-              >
-                <div className="product-list-wrapper">
-                  <div className="product-list-image">
-                    <img src={product.thumbnail} />
+              <Link to={`/product/${product.id}`}>
+                <li
+                  className={productListClassName}
+                  key={product.id}
+                  onClick={() => setSelectedProduct(product.id)}
+                >
+                  <div className="product-list-wrapper">
+                    <div className="product-list-image">
+                      <img src={product.thumbnail} />
+                    </div>
+                    <div className="product-list-detail">
+                      <div className="product-list-title"> {product.title}</div>
+                      <div
+                        className={getAvailablilityClassName(
+                          product.availabilityStatus
+                        )}
+                      >
+                        {product.availabilityStatus}
+                      </div>
+                      <div>
+                        <i>{product.brand}</i>
+                      </div>
+                      <span className="category">{product.category}</span>
+                      <div>
+                        <strong>Quantity :</strong>{" "}
+                        {product.minimumOrderQuantity} / {product.stock}
+                      </div>
+                      <Rating
+                        name="read-only"
+                        size="small"
+                        value={product.rating}
+                        readOnly
+                      />
+                      <div className="price">${product.price}</div>
+                    </div>
                   </div>
-                  <div className="product-list-detail">
-                    <div className="product-list-title"> {product.title}</div>
-                    <div
-                      className={getAvailablilityClassName(
-                        product.availabilityStatus
-                      )}
-                    >
-                      {product.availabilityStatus}
-                    </div>
-                    <div>
-                      <i>{product.brand}</i>
-                    </div>
-                    <span className="category">{product.category}</span>
-                    <div>
-                      <strong>Quantity :</strong> {product.minimumOrderQuantity}{" "}
-                      / {product.stock}
-                    </div>
-                    <Rating
-                      name="read-only"
-                      size="small"
-                      value={product.rating}
-                      readOnly
-                    />
-                    <div className="price">${product.price}</div>
-                  </div>
-                </div>
-              </li>
+                </li>
+              </Link>
             </>
           );
         })}

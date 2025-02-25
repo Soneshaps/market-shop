@@ -6,9 +6,7 @@ import Product from "./pages/Product";
 const App: React.FC = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Product />} />
-      </Routes>
+      <Product />
     </Router>
   );
 };

@@ -1,27 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Product } from "../types/types";
 import { Rating } from "@mui/material";
 import { discountedPrice, getAvailablilityClassName } from "../utils/utils";
+import { useParams } from "react-router-dom";
+import { getProductById } from "../api/product.api";
 
-interface ProductDetailsProps {
-  product: Product | null;
-  isFetching: boolean;
-}
+const ProductDetails: React.FC = () => {
+  const { id } = useParams();
+  const [isFetching, setIsFetching] = useState(false);
+  const [product, setProduct] = useState<Product | null>(null);
 
-const ProductDetails: React.FC<ProductDetailsProps> = ({
-  product,
-  isFetching,
-}) => {
-  if (!product) {
-    return (
-      <div className="loading">
-        No Product Selected. Please select a product from the list.
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (id) {
+      const fetchProductsDetails = async () => {
+        setIsFetching(true);
+        try {
+          const data = await getProductById(+id);
+          setProduct(data || null);
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        } finally {
+          setIsFetching(false);
+        }
+      };
+
+      fetchProductsDetails();
+    }
+  }, [id]);
 
   if (isFetching) {
     return <div className="loading">Fetching Product Details ....</div>;
+  }
+
+  if (!product) {
+    return <div className="loading">Product Not Found</div>;
   }
 
   return (

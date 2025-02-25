@@ -5,6 +5,7 @@ import ProductList from "../components/ProductList";
 import { Product as ProductType } from "../types/types";
 import { filterProductsByCategory, getUniqueCategories } from "../utils/utils";
 import { Pagination } from "@mui/material";
+import { Route, Routes } from "react-router-dom";
 
 const DEFAULT_PAGE = 1;
 
@@ -16,17 +17,10 @@ const Product: React.FC = () => {
   const [isProductListFetching, setIsProductListFetching] =
     useState<boolean>(false);
 
-  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(
-    null
-  );
-
   const [products, setProducts] = useState<ProductType[]>([]);
 
   const [filteredProducts, setFilteredProducts] =
     useState<ProductType[]>(products);
-
-  const [isProductDetailFetching, setIsProductDetailFetching] =
-    useState<boolean>(false);
 
   const [category, setCategory] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -72,24 +66,6 @@ const Product: React.FC = () => {
     fetchProducts();
   }, [pageNumber]);
 
-  useEffect(() => {
-    if (selectedProductId) {
-      const fetchProductsDetails = async () => {
-        setIsProductDetailFetching(true);
-        try {
-          const data = await getProductById(selectedProductId);
-          setSelectedProduct(data || null);
-        } catch (error) {
-          console.error("Error fetching products:", error);
-        } finally {
-          setIsProductDetailFetching(false);
-        }
-      };
-
-      fetchProductsDetails();
-    }
-  }, [selectedProductId]);
-
   return (
     <div style={{ display: "flex", height: "100vh" }}>
       <div
@@ -121,10 +97,17 @@ const Product: React.FC = () => {
       </div>
       {/* Left side: Product details (or placeholder) */}
       <div style={{ flex: 1, overflowY: "auto" }}>
-        <ProductDetails
-          product={selectedProduct}
-          isFetching={isProductDetailFetching}
-        />
+        <Routes>
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route
+            path="*"
+            element={
+              <div className="loading">
+                No Product Selected. Please select a product from the list.
+              </div>
+            }
+          />
+        </Routes>
       </div>
 
       {/* Right side: Product list */}

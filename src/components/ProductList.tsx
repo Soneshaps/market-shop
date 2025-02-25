@@ -12,7 +12,7 @@ const ProductList: React.FC<ProductListProps> = ({
 }) => {
   return (
     <div>
-      <h2>Product List</h2>
+      <h2 className="heading">Product List</h2>
       <ul>
         {products.map((product) => (
           <li

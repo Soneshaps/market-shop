@@ -25,7 +25,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   return (
     <div className="product-details-wrapper">
       <div className="product-details">
-        <h2>Product item</h2>
+        <h2 className="heading">Product item</h2>
         <div className="image">
           <img alt={product.title} src={product.thumbnail} />
         </div>

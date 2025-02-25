@@ -1,3 +1,8 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
 .loading {
   height: 600px;
   display: flex;
@@ -11,10 +16,11 @@ body {
 
 .image {
   height: 300px;
+  padding-bottom: 20px;
 }
 
 .product-details-wrapper {
-  margin: 20px;
+  margin: 32px;
   display: flex;
 }
 
@@ -35,4 +41,8 @@ body {
 
 .product-list:hover {
   color: #333;
+}
+
+.heading {
+  padding-bottom: 20px;
 }

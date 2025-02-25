@@ -75,7 +75,7 @@ const Product: React.FC = () => {
           width: "300px",
           borderLeft: "1px solid #ccc",
           overflowY: "auto",
-          padding: "20px",
+          padding: "32px",
         }}
       >
         <ProductList

@@ -80,6 +80,7 @@ const Product: React.FC = () => {
       >
         <ProductList
           products={products}
+          selectedProductId={selectedProductId}
           setSelectedProduct={setSelectedProductId}
         />
       </div>

@@ -14,6 +14,20 @@ export interface Product {
   availabilityStatus: string;
   returnPolicy: string;
   tags: string[];
+  weight: number;
+  warrantyInformation: string;
+  dimensions: {
+    width: number;
+    height: number;
+    depth: number;
+  };
+  reviews: {
+    comment: string;
+    date: string;
+    rating: number;
+    reviewerEmail: string;
+    reviewerName: string;
+  }[];
 }
 
 export interface ProductsResponse {

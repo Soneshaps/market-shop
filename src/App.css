@@ -21,7 +21,8 @@ body {
 
 .images {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .main-image {
@@ -34,6 +35,7 @@ body {
   width: 100%;
   background-color: #edeae3;
   border-radius: 15px;
+  object-fit: contain;
 }
 
 .main-image img {
@@ -49,18 +51,6 @@ body {
 
 .secondary-top-images {
   display: flex;
-  gap: 10px;
-}
-
-.secondary-top-images img {
-  height: 250px;
-}
-
-.secondary-bottom-images img {
-  height: 250px;
-
-  object-fit: contain;
-  object-position: 1cqw;
 }
 
 .product-details-wrapper {
@@ -70,6 +60,9 @@ body {
 
 .product-details {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   font-size: 18px;
 }
 
@@ -179,7 +172,7 @@ body {
 
 .product-descriptions {
   display: flex;
-  padding-top: 10px;
+  padding-top: 24px;
   justify-content: space-between;
 }
 
@@ -194,6 +187,7 @@ body {
   display: flex;
   align-items: center;
   color: #333;
+  justify-content: center;
   gap: 16px;
 }
 
@@ -230,14 +224,75 @@ body {
 
 .descriptions {
   font-weight: 500;
-  margin-top: 40px;
   font-size: 16px;
 }
 
 .descriptions-details {
-  padding-top: 5px;
-  width: 700px;
+  padding-top: 8px;
   font-size: 14px;
   color: #8d8a8a;
   font-weight: 400;
+}
+
+.dimension-wrapper {
+  /* width: 400px; */
+}
+
+.dimension {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dimension-value {
+  padding-left: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+/* Rating Section */
+
+.product-rating {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  color: #333;
+}
+
+.review-section {
+  padding-top: 24px;
+  display: flex;
+  gap: 12px;
+}
+
+.rating-image img {
+  height: 40px;
+  width: 40px;
+}
+
+.rating-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rating-profile-detail {
+  display: flex;
+  align-items: center;
+}
+
+.rating-date {
+  font-weight: 400;
+  font-size: 12px;
+  padding-left: 24px;
+}
+
+.rating-descriptions {
+  padding-top: 16px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #333;
 }

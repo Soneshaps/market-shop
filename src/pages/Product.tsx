@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getAllProducts, getProductById } from "../api/product.api";
-import ProductDetails from "../components/ProductDetails";
+import { getAllProducts } from "../api/product.api";
+import ProductDetails from "./ProductDetails";
 import ProductList from "../components/ProductList";
 import { Product as ProductType } from "../types/types";
 import { filterProductsByCategory, getUniqueCategories } from "../utils/utils";
@@ -67,13 +67,29 @@ const Product: React.FC = () => {
   }, [pageNumber]);
 
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
+    <div style={{ display: "flex", height: "100vh", margin: "0 0 0  24px" }}>
+      {/* Left side: Product details (or placeholder) */}
+      <div style={{ flex: 1, overflowY: "auto" }}>
+        <Routes>
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route
+            path="*"
+            element={
+              <div className="loading">
+                No Product Selected. Please select a product from the list.
+              </div>
+            }
+          />
+        </Routes>
+      </div>
+
+      {/* Right side: Product list */}
       <div
         style={{
           width: "350px",
-          borderRight: "1px solid #ccc",
+          borderLeft: "1px solid #ccc",
           overflowY: "auto",
-          padding: "32px 20px 32px 32px",
+          padding: "32px 44px 32px 32px",
         }}
       >
         <ProductList
@@ -96,22 +112,6 @@ const Product: React.FC = () => {
           />
         </div>
       </div>
-      {/* Left side: Product details (or placeholder) */}
-      <div style={{ flex: 1, overflowY: "auto" }}>
-        <Routes>
-          <Route path="/product/:id" element={<ProductDetails />} />
-          <Route
-            path="*"
-            element={
-              <div className="loading">
-                No Product Selected. Please select a product from the list.
-              </div>
-            }
-          />
-        </Routes>
-      </div>
-
-      {/* Right side: Product list */}
     </div>
   );
 };

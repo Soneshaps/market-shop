@@ -33,3 +33,12 @@ export const getAvailablilityClassName = (status: string) => {
 export function discountedPrice(discountPercentage: number, price: number) {
   return Math.floor(price - (discountPercentage / 100) * price);
 }
+
+export const formatDate = (isoString: string): string => {
+  const date = new Date(isoString);
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+};

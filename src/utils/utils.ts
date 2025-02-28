@@ -31,7 +31,7 @@ export const getAvailablilityClassName = (status: string) => {
 };
 
 export function discountedPrice(discountPercentage: number, price: number) {
-  return Math.floor(price - (discountPercentage / 100) * price);
+  return parseFloat((price - (discountPercentage / 100) * price).toFixed(2));
 }
 
 export const formatDate = (isoString: string): string => {

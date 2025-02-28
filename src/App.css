@@ -55,7 +55,6 @@ body {
 
 .product-details-wrapper {
   margin: 32px;
-  display: flex;
 }
 
 .product-details {
@@ -294,5 +293,17 @@ body {
   padding-top: 16px;
   font-weight: 400;
   font-size: 16px;
+  color: #333;
+}
+
+.product-detail-header {
+  display: flex;
+  padding-bottom: 24px;
+  align-items: center;
+  text-align: center;
+  justify-content: space-between;
+}
+
+.heading {
   color: #333;
 }
